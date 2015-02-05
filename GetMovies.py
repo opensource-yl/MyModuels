@@ -1,7 +1,7 @@
 #coding:utf-8
 #!/usr/bin/python
 import urllib
-import sys,time, socket
+import sys,time, socket, random
 import re
 from bs4 import BeautifulSoup
 import chardet
@@ -12,7 +12,7 @@ sys.setdefaultencoding( "utf-8" )
 def GetPageInfo(url):
     global html
     try:
-        Headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0',
+        Headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Firefox/17.0',
        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
        'Accept-Encoding': 'none',
@@ -37,6 +37,7 @@ def ScratchMovies(self):
     global MOVIE_CLASS
     global MOVIE_NAME
     global MOVIE_FEN
+    global MOVIE_TYPE
     try:
         MOVIE_NAME = SOUP.title.contents[0]
         MOVIE_NAME = MOVIE_NAME.split()[0]
@@ -58,12 +59,17 @@ def ScratchMovies(self):
 
     try:
         MOVIE_CLASS = SOUP.find('div', attrs={"class":"nav-logo"}).contents[1].contents[0]
+        if MOVIE_CLASS == u"豆瓣电影" :
+            try:
+                MOVIE_TYPE = SOUP.find('span', attrs={"class":"rec"}).a['data-type']
+            except AttributeError:
+                MOVIE_TYPE = "None"
     except AttributeError:
         MOVIE_CLASS = "NO_CLASS"
 
 
 #QUNA = 'http://movie.douban.com/subject/1842121'
-count=25858231
+count=25835265
 Doban_Url='http://movie.douban.com/subject/'
 
 while count>0:
@@ -82,7 +88,7 @@ while count>0:
         f=open('MyMovies', 'a')
         f.write('%s\n' %MOVIE)
         f.close()
-        if MOVIE_FEN != 'None_property_yet':
+        if (MOVIE_FEN != 'None_property_yet') and (MOVIE_TYPE == u'电影'):
             print MOVIE_FEN
             Proporty = float(MOVIE_FEN)
             if Proporty >= 8.0:
@@ -98,5 +104,5 @@ while count>0:
         f=open('MyMusics', 'a')
         f.write('%s\n' %MOVIE)
         f.close()
-
-    time.sleep(2)
+    SleepTime = random.randint(2,5)
+    time.sleep(SleepTime)
