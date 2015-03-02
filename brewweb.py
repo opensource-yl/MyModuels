@@ -5,12 +5,28 @@ from bs4 import BeautifulSoup
 import chardet
 import urllib2
 
-BrewServer='https://brewweb.devel.redhat.com/search?match=glob&type=package&'
+
+###################################################
+#This is a small web crawler, designed to scratch build infos from brewweb,
+#and result to a list with all buildinfos. Help yourself and feel free to recreate it.
+###################################################
+###################################################
+#Configure your project which you want to monitor, such as: libguestfs, rhel-guest-image, rhevm, rhevh, and so on,
+#it must be a real project which exists and can be searched on brewweb.
 PackageName='rhel-guest-image'
-#eg: https://brewweb.devel.redhat.com/search?match=glob&type=package&terms=rhel-guest-image
+####################################################
+
+####################################################
+#This is brewweb search web url. Do not change it.
+BrewServer='https://brewweb.devel.redhat.com/search?match=glob&type=package&'
 URL=BrewServer+'terms='+PackageName
 print URL
+#eg: https://brewweb.devel.redhat.com/search?match=glob&type=package&terms=rhel-guest-image
+####################################################
+####################################################
+#Global variant.
 html=''
+####################################################
 
 def GetPageInfo(url):
     global html
@@ -20,8 +36,9 @@ def GetPageInfo(url):
         'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
         'Accept-Encoding': 'none',
         'Connection': 'keep-alive'}
+        #Headers is needed to make this crawler works as the browser. To find your user agent, open this link:
+        #http://whatsmyuseragent.com/
         req = urllib2.Request(url, headers=Headers)
-        #req = urllib2.Request(url)
         content = urllib2.urlopen(req,timeout=10).read()
 
     except urllib2.HTTPError:
