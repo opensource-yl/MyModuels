@@ -77,4 +77,9 @@ BuildList=[]
 BuildDict={}
 PackageInfo=GetPageInfo(URL)
 BuildLists=ScratchBuildInfo(PackageInfo)
-print BuildLists
+
+#for i in BuildLists: print i
+#{'BuildName': [u'rhel-guest-image-7.1-20150224.0.el7'], 'BuildUser': [u'rbarry'], 'BuildTime': [u'2015-02-24 12:26:03'], 'BuildStatus': ['complete']}
+#{'BuildName': [u'rhel-guest-image-7.1-20150224.0'], 'BuildUser': [u'rbarry'], 'BuildTime': [u'2015-02-24 09:34:16'], 'BuildStatus': ['complete']}
+#{'BuildName': [u'rhel-guest-image-7.1-20150223.0.el7'], 'BuildUser': [u'rbarry'], 'BuildTime': [u'2015-02-23 14:43:45'], 'BuildStatus': ['complete']}
+#...
